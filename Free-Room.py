@@ -1,12 +1,30 @@
-import uoftscrapers
 import os
+import json
 
-utm_courses = []
 
-entries = os.listdir('course_json/')
-for i in range(len(entries)):
-    if 'H5' in entries[i]:
-        utm_courses.append(entries[i])
+class Course:
+    """
+    A UTM Course
+    """
+    def __init__(self, json):
+        self.id = json['id']
+        self.code = json['code']
+        self.name = json['name']
+        self.term = json['term']
+        self.meeting_sections = json['meeting_sections']
 
-print(utm_courses)
+
+if __name__ == '__main__':
+
+    course_dir = os.listdir('course_json/')
+    utm_courses = [course for course in course_dir if 'H5' in course]
+
+    courses = []
+    for course in utm_courses:
+        file = open('course_json/' + course)
+        str_json = file.readline()
+        courses.append(Course(json.loads(str_json)))
+
+
+
 
