@@ -52,7 +52,7 @@ class Room:
     """
     def __init__(self, number):
         self.number = number
-        self.schedule = []
+        self.schedule = {}
 
 
 def merge_intervals(arr):
@@ -106,12 +106,16 @@ if __name__ == '__main__':
             if event.term == '2020':
                 if event.location not in Rooms:
                     Rooms[event.location] = Room(event.location)
+                    Rooms[event.location].schedule[event.day] = [[event.start_time, event.end_time]]
+                elif event.day not in Rooms[event.location].schedule:
+                    Rooms[event.location].schedule[event.day] = [[event.start_time, event.end_time]]
                 else:
-                    Rooms[event.location].schedule.append([event.start_time, event.end_time])
+                    Rooms[event.location].schedule[event.day].append([event.start_time, event.end_time])
 
     # Merge Intervals in Schedule
     for room in Rooms:
-        Rooms[room].schedule = merge_intervals(Rooms[room].schedule)
+        for day in Rooms[room].schedule:
+            Rooms[room].schedule[day] = merge_intervals(Rooms[room].schedule[day])
 
     # Print all Rooms and Times
     for room in Rooms:
