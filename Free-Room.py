@@ -17,8 +17,8 @@ class Course:
         self.term = json['term']
         self.events = []
         for event in json['meeting_sections']:
-            if len(event['times']) != 0:
-                self.events.append(Event(event, json['term'][0:4], json['code']))
+            for subevent in event['times']:
+                self.events.append(Event(subevent, json['term'][0:4], json['code']))
 
 
 class Event:
@@ -26,15 +26,13 @@ class Event:
     A UTM Course Meeting Section
     """
     def __init__(self, json: dict, term: str, code: str):
+        self.full_year = 'Y' == code[-1]
         self.term = term
         self.code = code
-        self.section = json['code']
-        self.location = json['times'][0]['location']
-        self.day = json['times'][0]['day']
-        self.start_time = json['times'][0]['start']//3600
-        self.end_time = json['times'][0]['end']//3600
-        #self.start_time = datetime.strptime(str(int(json['times'][0]['start'])//3600), '%H').strftime('%I:%M %p')
-        #self.end_time = datetime.strptime(str(int(json['times'][0]['end'])//3600), '%H').strftime('%I:%M %p')
+        self.location = json['location']
+        self.day = json['day']
+        self.start_time = json['start']//3600
+        self.end_time = json['end']//3600
 
 
 class Building:
@@ -44,6 +42,9 @@ class Building:
     def __init__(self, name):
         self.name = name
         self.rooms = []
+
+    def __repr__(self):
+        return self.name
 
 
 class Room:
@@ -78,9 +79,6 @@ def merge_intervals(arr):
 
     if max != -100000 and [s, max] not in m:
         m.append([s, max])
-    # print("The Merged Intervals are :", end=" ")
-    # for i in range(len(m)):
-    #     print(m[i], end=" ")
     return m
 
 
@@ -95,15 +93,16 @@ if __name__ == '__main__':
     for course in utm_courses:
         file = open('course_json/' + course)
         str_json = file.readline()
-        courses.append(Course(json.loads(str_json)))
+        c = Course(json.loads(str_json))
+        courses.append(c)
 
-    # Create and Populate Building and Room
+    # Create and Populate Rooms Map
     Buildings = {}
     Rooms = {}
 
     for course in courses:
         for event in course.events:
-            if event.term == '2020':
+            if event.term == '2020' or event.full_year:
                 if event.location not in Rooms:
                     Rooms[event.location] = Room(event.location)
                     Rooms[event.location].schedule[event.day] = [[event.start_time, event.end_time]]
@@ -117,6 +116,18 @@ if __name__ == '__main__':
         for day in Rooms[room].schedule:
             Rooms[room].schedule[day] = merge_intervals(Rooms[room].schedule[day])
 
-    # Print all Rooms and Times
+    # Populate Buildings Map
     for room in Rooms:
-        print(room, Rooms[room].schedule)
+        if Rooms[room].number[0:2] not in Buildings:
+            Buildings[Rooms[room].number[0:2]] = Building(Rooms[room].number[0:2])
+            Buildings[Rooms[room].number[0:2]].rooms.append(Rooms[room])
+        else:
+            Buildings[Rooms[room].number[0:2]].rooms.append(Rooms[room])
+
+
+    # Print all Rooms and Times
+    for building in Buildings:
+        for room in Buildings[building].rooms:
+            print(room.number, room.schedule)
+
+
