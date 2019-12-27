@@ -1,6 +1,6 @@
 # Free Room
 
-Free Room is a `Python` application that uses [UofT Scrapers](https://github.com/cobalt-uoft/uoft-scrapers) data to provide all the lecture and tutorial rooms that are currently not in use. The goal is to have a visual based chart, where each day of the week shows what room is free in what building like below:
+Free Room is a `Python` application that uses [UofT Scrapers](https://github.com/cobalt-uoft/uoft-scrapers) data to provide all the lecture and tutorial rooms that are currently not in use at the University of Toronto Mississauga (UTM). UTM allows students to use free rooms to study. With **Free Rooms** students don't have to endlessly search for a study room in the library. The goal is to have a visual based chart, where each day of the week shows what room is free in what building like below:
 
 #### Davis Building - Weekly Calendar
 
