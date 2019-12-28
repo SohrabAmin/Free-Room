@@ -1,16 +1,26 @@
-class Table:
-    """
-    A Markdown Table
-    """
-    def __init__(self):
-        """
-        Instantiate a Markdown Table
-        """
-        self.table = []
+#Credit: https://github.com/m0neysha
 
+def create_md_table(array) -> str:
+    """
+    return str representation of a markdown table
+    """
+    markdown = "\n" + str("| ")
 
-if __name__ == '__main__':
-    file = open('Assets/markdown.md', 'r+')
-    x = file.readlines()
-    file.write('## Heading')
-    print(x)
+    for e in array[0]:
+        to_add = " " + str(e) + str(" |")
+        markdown += to_add
+    markdown += "\n"
+
+    markdown += '|'
+    for i in range(len(array[0])):
+        markdown += str("-------------- | ")
+    markdown += "\n"
+
+    for entry in array[1:]:
+        markdown += str("| ")
+        for e in entry:
+            to_add = str(e) + str(" | ")
+            markdown += to_add
+        markdown += "\n"
+
+    return markdown + "\n"

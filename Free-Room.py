@@ -1,5 +1,6 @@
 import os
 import json
+from md_Generator import create_md_table
 
 
 class Course:
@@ -115,6 +116,7 @@ if __name__ == '__main__':
         for day in Rooms[room].schedule:
             Rooms[room].schedule[day] = merge_intervals(Rooms[room].schedule[day])
 
+
     # Populate Buildings Map
     for room in Rooms:
         if Rooms[room].number[0:2] not in Buildings:
@@ -125,8 +127,28 @@ if __name__ == '__main__':
 
 
     # Print all Rooms and Times
+    # for building in Buildings:
+    #     for room in Buildings[building].rooms:
+    #         print(room.number, room.schedule)
+
+
+    # Add Data to README.md
+    table2 = [['Davis', '2062', '2059'],
+             ['8:00', 'x', ' '],
+             ['9:00', 'x', 'x'],
+             ['10:00', 'x', 'x']]
+
+    file = open('Assets/markdown.md', 'r+')
+    file.truncate(0)
+    file.write(create_md_table(table2))
+
+    table = []
     for building in Buildings:
         for room in Buildings[building].rooms:
-            print(room.number, room.schedule)
+            for schedule in room.schedule:
+                if schedule == 'MONDAY' and room.number[0:2] == 'IB':
+                    print(room.number, room.schedule['MONDAY'])
+
+
 
 
