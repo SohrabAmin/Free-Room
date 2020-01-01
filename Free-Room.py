@@ -127,50 +127,49 @@ if __name__ == '__main__':
 
 
     # Print all Rooms and Times
-    # for building in Buildings:
-    #     for room in Buildings[building].rooms:
-    #         print(room.number, room.schedule)
+    for building in Buildings:
+        for room in Buildings[building].rooms:
+            print(room.number, room.schedule)
 
 
     # Add Data to README.md
-    table2 = [['Davis', '2062', '2059'],
-             ['8:00', 'x', ' '],
-             ['9:00', 'x', 'x'],
-             ['10:00', 'x', 'x']]
-
-    file = open('Assets/markdown.md', 'r+')
-    file.truncate(0)
-    file.write(create_md_table(table2))
-
-    table = [['00'],
-             ['08:00'],
-             ['09:00'],
-             ['10:00'],
-             ['11:00'],
-             ['12:00'],
-             ['13:00'],
-             ['14:00'],
-             ['15:00'],
-             ['16:00'],
-             ['17:00'],
-             ['18:00'],
-             ['19:00'],
-             ['20:00'],
-             ['21:00'],
-             ['22:00']]
-
-    for building in Buildings:
-        for room in Buildings[building].rooms:
-            for schedule in room.schedule:
-                if schedule == 'MONDAY' and room.number[0:2] == 'IB':
-                    #print(room.number, room.schedule['MONDAY'])
-                    for row in range(len(table)):
-                        for times in room.schedule['MONDAY']:
-                            if int(table[row][0][0:2]) in range(int(times[0]), int(times[1])):
-                                table[row].append('x')
-
-    print(table)
-
+    # table2 = [['Davis', '2062', '2059'],
+    #          ['8:00', 'x', ' '],
+    #          ['9:00', 'x', 'x'],
+    #          ['10:00', 'x', 'x']]
+    #
+    # file = open('Assets/markdown.md', 'r+')
+    # file.truncate(0)
+    # file.write(create_md_table(table2))
+    #
+    # table = [['00'],
+    #          ['08:00'],
+    #          ['09:00'],
+    #          ['10:00'],
+    #          ['11:00'],
+    #          ['12:00'],
+    #          ['13:00'],
+    #          ['14:00'],
+    #          ['15:00'],
+    #          ['16:00'],
+    #          ['17:00'],
+    #          ['18:00'],
+    #          ['19:00'],
+    #          ['20:00'],
+    #          ['21:00'],
+    #          ['22:00']]
+    #
+    # for building in Buildings:
+    #     for room in Buildings[building].rooms:
+    #         for schedule in room.schedule:
+    #             if schedule == 'MONDAY' and room.number[0:2] == 'IB':
+    #                 #print(room.number, room.schedule['MONDAY'])
+    #                 for row in range(len(table)):
+    #                     for times in room.schedule['MONDAY']:
+    #                         if int(table[row][0][0:2]) in range(int(times[0]), int(times[1])):
+    #                             table[row].append('x')
+    #
+    # print(table)
 
 
 
