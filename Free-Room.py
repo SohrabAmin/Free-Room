@@ -1,6 +1,7 @@
 import os
 import json
 from md_Generator import create_md_table
+import matplotlib
 
 
 class Course:
